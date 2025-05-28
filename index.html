@@ -1,1 +1,341 @@
 
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<style>
+  :root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --accent-color: #0077cc;
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.5s, color 0.5s;
+  }
+
+  nav a {
+    color: var(--text-color);
+  }
+
+  #themeSelector {
+    margin: 1rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+</style>
+
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Український Скреттч Департамент</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f2f2;
+      color: #222;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+    header {
+      background-color: #005bbb;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #ffd500;
+      padding: 0.5rem;
+      flex-wrap: wrap;
+    }
+    nav a {
+      margin: 0.5rem 1rem;
+      text-decoration: none;
+      color: #222;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    nav a.active {
+      text-decoration: underline;
+    }
+    main {
+      padding: 2rem;
+    }
+    section {
+      margin-bottom: 2rem;
+    }
+    .card {
+      background-color: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      margin-bottom: 1rem;
+    }
+    footer {
+      background-color: #eee;
+      text-align: center;
+      padding: 1rem;
+    }
+    .highlight {
+      background-color: #ffffcc;
+      border-left: 5px solid #ffeb3b;
+      padding: 0.5rem;
+      margin-top: 1rem;
+    }
+    .interactive-button {
+      display: inline-block;
+      background-color: #005bbb;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    .interactive-button:hover {
+      background-color: #004999;
+    }
+    .chat-box {
+      max-width: 600px;
+      margin: 0 auto;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: #fff;
+      padding: 1rem;
+    }
+    .chat-messages {
+      height: 200px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      border-radius: 5px;
+      background: #fafafa;
+      margin-bottom: 1rem;
+    }
+    .chat-input {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .chat-input input {
+      flex-grow: 1;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .chat-input button {
+      padding: 0.5rem 1rem;
+      background-color: #005bbb;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .chat-input button:hover {
+      background-color: #004999;
+    }
+    .chat-channels {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .chat-channel-button {
+      background-color: #ffd500;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .chat-channel-button.active {
+      background-color: #ffcc00;
+    }
+  </style>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const sections = document.querySelectorAll("section");
+      const navLinks = document.querySelectorAll("nav a");
+
+      function onScroll() {
+        let scrollPos = window.scrollY || document.documentElement.scrollTop;
+
+        sections.forEach(section => {
+          if (scrollPos >= section.offsetTop - 100) {
+            navLinks.forEach(link => link.classList.remove("active"));
+            const activeLink = document.querySelector(`nav a[href='#${section.id}']`);
+            if (activeLink) activeLink.classList.add("active");
+          }
+        });
+      }
+
+      window.addEventListener("scroll", onScroll);
+
+      const chatMessages = document.getElementById("chatMessages");
+      const chatInput = document.getElementById("chatInput");
+      const chatSend = document.getElementById("chatSend");
+      const channelButtons = document.querySelectorAll(".chat-channel-button");
+
+      let currentChannel = "main";
+
+      function loadMessages() {
+        const stored = localStorage.getItem(`chatData_${currentChannel}`);
+        chatMessages.innerHTML = stored || "";
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function sendMessage() {
+        const text = chatInput.value.trim();
+        if (!text) return;
+        const msgHTML = `<p><strong>👤:</strong> ${text}</p>`;
+        chatMessages.innerHTML += msgHTML;
+        localStorage.setItem(`chatData_${currentChannel}`, chatMessages.innerHTML);
+        chatInput.value = "";
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      chatSend?.addEventListener("click", sendMessage);
+      chatInput?.addEventListener("keypress", e => {
+        if (e.key === "Enter") sendMessage();
+      });
+
+      channelButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          channelButtons.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          currentChannel = btn.dataset.channel;
+          loadMessages();
+        });
+      });
+
+      loadMessages();
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Український Scratch Департамент</h1>
+    <a class="interactive-button" href="https://character.ai/chat/MjwFHxdjVsHTuNRLYAmCJRsEtGV8UKTYjiyUF8oJSpI" target="_blank">Чат бот спільноти</a>
+    <p>Офіційний сайт Українського Scratch Департаменту.</p>
+  </header>
+  <nav>
+    <a href="#about">Про сайт</a>
+    <a href="#SM">УСД на інших платформах</a>
+    <a href="#citizenship">Громадянство</a>
+    <a href="#petitions">Петиції</a>
+    <a href="#board">Оголошення</a>
+    <a href="#news">Новини</a>
+    <a href="#chat">Міні-чат</a>
+    <a href="#chatbot">Чат бот</a>
+  </nav>
+  <main>
+    <section id="about">
+      <h2>Про сайт</h2>
+      <div class="card">
+        <p>Інформаційна платформа для учасників спільноти: новини, петиції, громадянство і чат.</p>
+     <section id="SM">
+       <h2>УСД на інших платформах:</h2>
+      <div class="card">
+        <p>іщьо німа.</p>
+      </div>
+    </section>
+    <section id="citizenship">
+      <h2>Громадянство</h2>
+      <div class="card">
+        <p>Щоб стати громадянином, заповни цю форму:</p>
+        <a class="interactive-button" href="https://docs.google.com/forms/d/e/1FAIpQLSfD7VD_dljiCEOohX3MH-Wz4p16UEFZMRktRthgCRlhtuzvpQ/viewform?usp=header" target="_blank">Подати заявку</a>
+      </div>
+    </section>
+    <section id="petitions">
+      <h2>Петиції</h2>
+      <div class="card">
+        <p>Висловлюй свою думку — пиши петиції.</p>
+        <div class="highlight">
+          <p><div style="display:flex;align-items:center;gap:10px;font-family:sans-serif">
+  <div>
+    <h3 style="margin:0">Тест</h3>
+    <p style="margin:0">Технічна петиція для перевіки працездатності. Не зважайте.</p>
+    <div style="font-size:10px;text-align:center;margin-top:2px">Недостатньо підписів</div>
+  </div>
+  <button id="voteBtn" style="border:none;background:#2196f3;color:white;border-radius:50%;width:40px;height:40px;font-size:20px;cursor:pointer">✔</button>
+  <span id="voteCount">0</span>
+</div>
+<script>
+  let c=+localStorage.getItem('vC')||0,d=localStorage.getItem('vD');
+  const b=document.getElementById('voteBtn'),s=document.getElementById('voteCount');
+  s.textContent=c;
+  if(d)b.disabled=true;
+  b.onclick=()=>{c++;localStorage.setItem('vC',c);localStorage.setItem('vD',1);s.textContent=c;b.disabled=true};
+</script>
+
+        </div>
+        <a class="interactive-button" href="https://docs.google.com/forms/d/e/1FAIpQLSdWIhHISz50fq3PUv2x9HmgvEggO4dgMbX3Ib-UENU9Duf0wA/viewform?usp=header" target="_blank">Додати петицію</a>
+      </div>
+    </section>
+    <section id="board">
+      <h2>Публічна дошка оголошень</h2>
+      <div class="card">
+        <p><strong>26.05.2025:</strong> тест1.</p>
+        <p><strong>27.05.2025:</strong> Кожен може додавати свої оголошення сюди за посиланням. Насолоджуйтесь.</p>
+        <a class="interactive-button" href="https://docs.google.com/forms/d/e/1FAIpQLSfisMfTVpl9Rjfs600P1gvonoH7xNSOTuFymgc4alc1njD-ng/viewform?usp=header" target="_blank">Додати оголошення</a>
+      </div>
+    </section>
+    <section id="news">
+      <h2>Новини</h2>
+      <div class="card">
+        <p>🚀 Запущено офіційний сайт департаменту для кращої взаємодії.</p>
+      </div>
+    </section>
+    <section id="chat">
+      <h2>Міні-чат</h2>
+      <div class="chat-box">
+        <div class="chat-channels">
+          <button class="chat-channel-button active" data-channel="main">Основний чат</button>
+          <button class="chat-channel-button" data-channel="politics">Політика</button>
+          <button class="chat-channel-button" data-channel="scratch">Скретч розробка</button>
+          <button class="chat-channel-button" data-channel="offtopic">Оффтоп</button>
+        </div>
+        <div id="chatMessages" class="chat-messages"></div>
+        <div class="chat-input">
+          <input type="text" id="chatInput" placeholder="Введи повідомлення...">
+          <button id="chatSend">Надіслати</button>
+        </div>
+      </div>
+    </section>
+    <section id="chatbot">
+      <h2>Чат бот</h2>
+      <div class="card">
+        <p>Наш бот завжди готовий допомогти тобі з інформацією про спільноту, сайт чи інші речі. Переходь за посиланням:
+        </p>Нажаль , бот ще не функціональний. 
+        <a class="interactive-button" href="" target="_blank">Запустити чат бота</a>
+      </div>
+    </section>
+        <section id="hetman-elections">
+  <h2>Вибори гетьмана</h2>
+  <div class="card">
+    <p>Вся інформація про вибори гетьмана: Результати , кандидати , відсоток явки населення , тощо.
+    На данний момент інформації нема</p>
+  </div>
+</section>
+  <section id="live-events">
+  <h2>Живі події</h2>
+  <div class="card">
+     <p> На данний момент УСД спить.
+       </section>
+  <section id="raitings">
+  <h2>Рейтинги</h2>
+  <div class="raitings">
+      </div> 
+           </section>
+           <p> Йой! А ось тут сайт ще не добудували. Доведется чекати , коли дороблять:(
+             </section>
+<section>
+  </main>
+  <footer>
+    <p>© 2025 Український Scratch Департамент. Зроблено даркспейсом , з любов'ю :)</p>
+  </footer>
+</body>
+</html>
